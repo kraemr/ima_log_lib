@@ -10,7 +10,6 @@
     #define CRYPTO_AGILE_SHA256 1
     #define CRYPTO_AGILE_SHA384 2
     #define CRYPTO_AGILE_SHA512 3
-
     #define TEMPLATE_IMA_NG 0
 
 
@@ -31,10 +30,6 @@
     
         uint32_t templateDataLength;
         void* templateData; // contains the hash we actually care about
-
-        uint8_t templateType;
-        void* parsedTemplateData; // contains a struct that points to data in templateData for easy access
-
     }ImaEventSha256;
 
     typedef struct ImaEventSha1 {
@@ -46,10 +41,6 @@
     
         uint32_t templateDataLength;
         void* templateData; // contains the hash we actually care about
-
-        uint8_t templateType;
-        void* parsedTemplateData; // contains a struct that points to data in templateData for easy access
-
     }ImaEventSha1;
 
 #endif 

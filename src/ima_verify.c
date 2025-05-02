@@ -50,10 +50,10 @@ uint64_t readIMALogSha256(int fd, ImaEventSha256* imaBuffer,uint32_t bufferSize,
         bytesRead = read(fd,&event->templateDataLength,sizeof(uint32_t));
         event->templateData = (void *)malloc(event->templateDataLength * sizeof(uint8_t));
         bytesRead = read(fd,event->templateData,event->templateDataLength);
-        event->parsedTemplateData = malloc(sizeof(Ima_ng) );
-        parseTemplateImaNg(event->templateData,event->templateDataLength,event->parsedTemplateData);
-        event->templateType = TEMPLATE_IMA_NG;
-        Ima_ng test = *(Ima_ng*)event->parsedTemplateData;
+        //event->parsedTemplateData = malloc(sizeof(Ima_ng) );
+        //parseTemplateImaNg(event->templateData,event->templateDataLength,event->parsedTemplateData);
+        //event->templateType = TEMPLATE_IMA_NG;
+        //Ima_ng test = *(Ima_ng*)event->parsedTemplateData;
         //displayDigest(event->hashOfTemplate,SHA256_DIGEST_LENGTH);
         //displayDigest(test.hashO,SHA256_DIGEST_LENGTH);
         imaCount++;
@@ -66,9 +66,7 @@ uint64_t readIMALogSha256(int fd, ImaEventSha256* imaBuffer,uint32_t bufferSize,
 
 
 void calculateQuote(ImaEventSha256* events, uint32_t count,uint8_t pcrs[30][EVP_MAX_MD_SIZE] ){
-	//uint8_t zeroes[EVP_MAX_MD_SIZE] = {0};
 	uint32_t output_length = 0;
-	//memcpy(pcrs[10],zeroes,SHA256_DIGEST_LENGTH);
     for(uint32_t i=0;i < count; i++ ) {
 		ImaEventSha256* eref = &events[i];
 	    EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
@@ -78,11 +76,9 @@ void calculateQuote(ImaEventSha256* events, uint32_t count,uint8_t pcrs[30][EVP_
         EVP_DigestFinal_ex(mdctx, pcrs[eref->pcrIndex], &output_length);
         EVP_MD_CTX_free(mdctx); // probably can be optimised away 
 	}
-	printf("PCR_AGGREGATE: ");
 	displayDigest(pcrs[10],SHA256_DIGEST_LENGTH);
 }
 
-/*
 
 int32_t main(int32_t argc, char* argv[] ) {
     
@@ -94,4 +90,3 @@ int32_t main(int32_t argc, char* argv[] ) {
     close(fd);
     return 0;
 }
-*/
